@@ -21,6 +21,39 @@ from . import paper_meta
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
+def add_paper_to_meta(arxiv_id: str) -> str | None:
+    """
+    Add a paper to metadata and sync symlinks.
+    Assumes paper files (at least paper.bib) exist under paper_root/arxiv_id.
+    Returns None on success, or error message on failure.
+    """
+    meta_path, paper_root, folders_root, tags_root = get_paths()
+    papers, folder_tree = paper_meta.load_meta(meta_path)
+    if arxiv_id in papers:
+        return "Paper already in metadata"
+    bib_path = paper_root / arxiv_id / "paper.bib"
+    if not bib_path.exists():
+        return "paper.bib not found"
+    try:
+        title, published = paper_meta.parse_bibtex(bib_path)
+        if not title:
+            title = arxiv_id
+        paper = paper_meta.Paper(
+            arxiv_id=arxiv_id,
+            title=title,
+            published=published,
+            imported_at=datetime.now(timezone.utc).isoformat(),
+            folders=[],
+            tags=[],
+        )
+        papers[arxiv_id] = paper
+        paper_meta.save_meta(meta_path, papers, folder_tree)
+        sync_symlinks(meta_path, paper_root, folders_root, tags_root)
+        return None
+    except Exception as e:
+        return str(e)
+
+
 def load_env() -> None:
     """Load .env from project root into os.environ."""
     env_path = PROJECT_ROOT / ".env"
@@ -217,23 +250,11 @@ def create_app() -> Flask:
         except Exception as e:
             return jsonify({"error": str(e)}), 500
 
-        bib_path = paper_root / arxiv_id / "paper.bib"
-        title, published = paper_meta.parse_bibtex(bib_path)
-        if not title:
-            title = arxiv_id
-
-        paper = paper_meta.Paper(
-            arxiv_id=arxiv_id,
-            title=title,
-            published=published,
-            imported_at=datetime.now(timezone.utc).isoformat(),
-            folders=[],
-            tags=[],
-        )
-        papers[arxiv_id] = paper
-        paper_meta.save_meta(meta_path, papers, folder_tree)
-        sync_symlinks(meta_path, paper_root, folders_root, tags_root)
-        return jsonify(paper.to_dict())
+        err = add_paper_to_meta(arxiv_id)
+        if err and err != "Paper already in metadata":
+            return jsonify({"error": err}), 500
+        papers, _ = paper_meta.load_meta(meta_path)
+        return jsonify(papers[arxiv_id].to_dict())
 
     @app.route("/api/import/stream")
     def import_paper_stream():
@@ -299,24 +320,9 @@ def create_app() -> Flask:
                 yield "data: [ERROR] Import failed\n\n"
                 return
 
-            try:
-                bib_path = paper_root / arxiv_id / "paper.bib"
-                title, published = paper_meta.parse_bibtex(bib_path)
-                if not title:
-                    title = arxiv_id
-                paper = paper_meta.Paper(
-                    arxiv_id=arxiv_id,
-                    title=title,
-                    published=published,
-                    imported_at=datetime.now(timezone.utc).isoformat(),
-                    folders=[],
-                    tags=[],
-                )
-                papers[arxiv_id] = paper
-                paper_meta.save_meta(meta_path, papers, folder_tree)
-                sync_symlinks(meta_path, paper_root, folders_root, tags_root)
-            except Exception as e:
-                yield f"data: [ERROR] {e}\n\n"
+            err = add_paper_to_meta(arxiv_id)
+            if err and err != "Paper already in metadata":
+                yield f"data: [ERROR] {err}\n\n"
                 return
             yield "data: [DONE]\n\n"
 

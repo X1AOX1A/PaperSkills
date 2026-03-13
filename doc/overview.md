@@ -11,6 +11,7 @@ PaperSkills is a paper management web application that helps you import, organiz
 - **Import via arXiv ID** — Enter an arXiv ID (e.g. `2512.18832v2`) to fetch and import a paper
 - **Streaming import** — Real-time log output during import via Server-Sent Events (SSE)
 - **Auto-close on success** — Import modal closes automatically when import completes; stays open on error for manual inspection
+- **CLI import** — Run `bash scripts/fetch_paper.sh <arxiv_id>` directly; it adds the paper to metadata and syncs symlinks. No UI required.
 
 The import process runs `scripts/fetch_paper.sh`, which downloads:
 
