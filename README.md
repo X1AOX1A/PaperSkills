@@ -23,5 +23,5 @@ This will download
   - <arxiv_id>/
     - paper.pdf: The paper in PDF format.
     - paper.md: The paper in markdown format.
-    - kimi_review.md: The paper reviewed by Kimi for CoolPaper.
-    - paper.bib: The paper in bibtex format.
+    - kimi_review.md: The paper reviewed by Kimi from CoolPaper.
+    - paper.bib: The bibtex file of the paper.

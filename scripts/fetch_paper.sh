@@ -17,27 +17,27 @@ fi
 if [ -f ".env" ]; then
   source ".env"
 fi
-STORAGE_DIR="${STORAGE_DIR:-storage}"
+PAPER_ROOT="${PAPER_ROOT:-storage}"
 
 # Activate Python venv if exists
 if [ -f "uv_paperskills/bin/activate" ]; then
   source "uv_paperskills/bin/activate"
 fi
 
-mkdir -p "$STORAGE_DIR/$ARXIV_ID"
+mkdir -p "$PAPER_ROOT/$ARXIV_ID"
 
 # Fetch paper to pdf
 echo ">>> Fetching paper PDF for $ARXIV_ID..."
-wget -O "$STORAGE_DIR/$ARXIV_ID/paper.pdf" "https://arxiv.org/pdf/$ARXIV_ID"
+wget -O "$PAPER_ROOT/$ARXIV_ID/paper.pdf" "https://arxiv.org/pdf/$ARXIV_ID"
 
 # Fetch paper to markdown
 echo ">>> Converting paper to markdown..."
-arxiv2md "$ARXIV_ID" -o "$STORAGE_DIR/$ARXIV_ID/paper.md"
+arxiv2md "$ARXIV_ID" -o "$PAPER_ROOT/$ARXIV_ID/paper.md"
 
 # Fetch paper to kimi summary
 echo -e "\n>>> Generating Kimi summary..."
-python "skills/kimi_review/kimi_review.py" "$ARXIV_ID" -o "$STORAGE_DIR/$ARXIV_ID/kimi_review.md"
+python "skills/kimi_review/kimi_review.py" "$ARXIV_ID" -o "$PAPER_ROOT/$ARXIV_ID/kimi_review.md"
 
 # Fetch bibtex
 echo -e "\n>>> Fetching bibtex..."
-bash "skills/arxiv2bibtex/arxiv2bibtex.sh" "$ARXIV_ID" -o "$STORAGE_DIR/$ARXIV_ID/paper.bib"
+bash "skills/arxiv2bibtex/arxiv2bibtex.sh" "$ARXIV_ID" -o "$PAPER_ROOT/$ARXIV_ID/paper.bib"
