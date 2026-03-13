@@ -181,6 +181,9 @@ def create_app() -> Flask:
         del papers[arxiv_id]
         paper_meta.save_meta(meta_path, papers, folder_tree)
         sync_symlinks(meta_path, paper_root, folders_root, tags_root)
+        paper_dir = paper_root / arxiv_id
+        if paper_dir.exists() and paper_dir.is_dir():
+            shutil.rmtree(paper_dir)
         return jsonify({"ok": True})
 
     @app.route("/api/import", methods=["POST"])

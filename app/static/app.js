@@ -641,7 +641,7 @@ document.getElementById("remove-from-folder-btn").addEventListener("click", asyn
 });
 
 document.getElementById("delete-btn").addEventListener("click", async () => {
-  if (!confirm(`Delete ${selectedPapers.size} paper(s) from library? (Files will remain on disk)`)) return;
+  if (!confirm(`Permanently delete ${selectedPapers.size} paper(s)? This will remove the papers and their files from disk.`)) return;
   try {
     for (const arxivId of selectedPapers) {
       await api(`/api/papers/${arxivId}`, { method: "DELETE" });
