@@ -20,8 +20,8 @@ fi
 PAPER_ROOT="${PAPER_ROOT:-storage}"
 
 # Activate Python venv if exists
-if [ -f "uv_paperskills/bin/activate" ]; then
-  source "uv_paperskills/bin/activate"
+if [ -f ".venv/bin/activate" ]; then
+  source ".venv/bin/activate"
 fi
 
 mkdir -p "$PAPER_ROOT/$ARXIV_ID"

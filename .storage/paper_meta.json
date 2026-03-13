@@ -1,0 +1,56 @@
+{
+  "papers": {
+    "2501.12948": {
+      "arxiv_id": "2501.12948",
+      "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+      "published": "2026-01",
+      "imported_at": "2026-03-13T13:59:50.753832+00:00",
+      "folders": [
+        "LLM/Models"
+      ],
+      "tags": [
+        "llm",
+        "reasoning"
+      ]
+    },
+    "2503.14476": {
+      "arxiv_id": "2503.14476",
+      "title": "DAPO: An Open-Source LLM Reinforcement Learning System at Scale",
+      "published": "2025-01",
+      "imported_at": "2026-03-13T14:00:19.071552+00:00",
+      "folders": [
+        "LLM/Algo"
+      ],
+      "tags": [
+        "reasoning"
+      ]
+    },
+    "2412.15115": {
+      "arxiv_id": "2412.15115",
+      "title": "Qwen2.5 Technical Report",
+      "published": "2025-01",
+      "imported_at": "2026-03-13T14:01:48.097027+00:00",
+      "folders": [
+        "LLM/Models"
+      ],
+      "tags": [
+        "llm"
+      ]
+    }
+  },
+  "folder_tree": [
+    {
+      "path": "LLM",
+      "children": [
+        {
+          "path": "LLM/Models",
+          "children": []
+        },
+        {
+          "path": "LLM/Algo",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

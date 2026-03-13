@@ -25,3 +25,19 @@ This will download
     - paper.md: The paper in markdown format.
     - kimi_review.md: The paper reviewed by Kimi from CoolPaper.
     - paper.bib: The bibtex file of the paper.
+
+## Paper Management UI
+
+Setup environment variables:
+
+```
+cp .env.example .env
+```
+
+Launch the UI:
+
+```bash
+uv run python -m app
+```
+
+Serves at http://127.0.0.1:5001.

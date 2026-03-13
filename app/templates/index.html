@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paper Management</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="nav-item" data-folder="all">All</div>
+      <div class="folders-section">
+        <div class="folders-header">Folders</div>
+        <button id="new-folder-btn" class="btn-text new-folder-under-header">+ New Folder</button>
+        <div id="folder-tree"></div>
+      </div>
+      <div class="tags-section">
+        <div class="tags-header">Tags</div>
+        <div id="tag-list"></div>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="main-header">
+        <h1>Papers</h1>
+        <button id="import-btn" class="btn-primary">+ Import</button>
+      </header>
+      <div id="selection-bar" class="selection-bar hidden">
+        <span id="selection-count"></span>
+        <div class="add-to-wrapper">
+          <button id="add-to-btn" class="btn-text">Add to</button>
+          <div id="add-to-dropdown" class="dropdown hidden"></div>
+        </div>
+        <button id="remove-from-folder-btn" class="btn-text">Remove from folder</button>
+        <button id="delete-btn" class="btn-text btn-danger">Delete</button>
+      </div>
+      <table class="paper-table">
+        <thead>
+          <tr>
+            <th class="col-checkbox"><input type="checkbox" id="select-all" title="Select all"></th>
+            <th>Title</th>
+            <th>Published</th>
+            <th>Imported</th>
+            <th>Tags</th>
+          </tr>
+        </thead>
+        <tbody id="paper-list"></tbody>
+      </table>
+    </main>
+  </div>
+
+  <div id="import-modal" class="modal hidden">
+    <div class="modal-content">
+      <div id="import-form">
+        <h2>Import Paper</h2>
+        <p>Enter arXiv ID (e.g. 2501.11120v1)</p>
+        <input type="text" id="arxiv-id-input" placeholder="2501.11120v1">
+        <div id="import-error" class="error hidden"></div>
+        <div class="modal-actions">
+          <button id="import-cancel" class="btn-text">Cancel</button>
+          <button id="import-submit" class="btn-primary">Import</button>
+        </div>
+      </div>
+      <div id="import-log-area" class="import-log-area hidden">
+        <h2>Importing <span id="import-log-arxiv"></span></h2>
+        <pre id="import-log"></pre>
+        <div class="modal-actions">
+          <button id="import-close-btn" class="btn-primary hidden">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="new-folder-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>New Folder</h2>
+      <p>Folder name</p>
+      <input type="text" id="folder-name-input" placeholder="ML">
+      <div id="folder-error" class="error hidden"></div>
+      <div class="modal-actions">
+        <button id="folder-cancel" class="btn-text">Cancel</button>
+        <button id="folder-submit" class="btn-primary">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="rename-folder-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Rename Folder</h2>
+      <p>New name</p>
+      <input type="text" id="rename-folder-input" placeholder="">
+      <div id="rename-folder-error" class="error hidden"></div>
+      <div class="modal-actions">
+        <button id="rename-folder-cancel" class="btn-text">Cancel</button>
+        <button id="rename-folder-submit" class="btn-primary">Rename</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="folder-context-menu" class="context-menu hidden">
+    <button class="context-menu-item" data-action="new-subfolder">New subfolder</button>
+    <button class="context-menu-item" data-action="rename">Rename</button>
+    <button class="context-menu-item context-menu-item-danger" data-action="delete">Delete</button>
+  </div>
+
+  <div id="paper-context-menu" class="context-menu hidden">
+    <button class="context-menu-item" data-action="remove-from-folder">Remove from current folder</button>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

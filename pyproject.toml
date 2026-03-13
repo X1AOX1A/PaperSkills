@@ -1,0 +1,9 @@
+[project]
+name = "paperskills"
+version = "0.1.0"
+dependencies = [
+    "arxiv2markdown",
+    "bibtexparser",
+    "flask",
+    "requests",
+]

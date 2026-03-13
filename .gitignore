@@ -1,5 +1,8 @@
 .DS_Store
 .env
 .arxiv2md_cache
+.venv
+.trash
+.vscode
+__pycache__
 storage
-uv_paperskills
